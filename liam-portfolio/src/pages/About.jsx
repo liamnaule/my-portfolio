@@ -87,7 +87,7 @@ export default function About({ darkMode }) {
               <div className="relative group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200"></div>
                 <img 
-                  src="/assets/images/liam-profile.jpg" 
+                  src="src/assets/images/LIAM.jpg" 
                   alt="Liam Naule" 
                   className="relative rounded-lg w-full h-auto object-cover"
                 />
