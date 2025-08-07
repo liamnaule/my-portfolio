@@ -1,89 +1,70 @@
-import { useEffect } from 'react'
-import GlassCard from '../components/GlassCard'
-import ContactSphere from '../components/ContactSphere'
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import Navbar from '../components/Navbar'
 
-export default function Home({ darkMode }) {
+const heroImages = [
+  'src/assets/images/LIAM.jpg',
+  'src/assets/images/LIAM1.jpg',
+  'src/assets/images/LIAM2.jpg'
+]
+
+export default function Home() {
+  const [currentSlide, setCurrentSlide] = useState(0)
+
   useEffect(() => {
-    document.title = "Liam Naule | Fullstack Developer"
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroImages.length)
+    }, 5000)
+    return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className="relative overflow-hidden">
-      {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center p-8 relative">
-        <div className="absolute inset-0 bg-[url('./assets/images/abstract-bg.jpg')] bg-cover bg-center opacity-20"></div>
-        
-        <div className="max-w-6xl mx-auto z-10">
-          <GlassCard>
-            <h1 className="text-6xl md:text-8xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-600 mb-4">
-              LIAM NAULE
-            </h1>
-            <h2 className="text-2xl md:text-3xl font-light text-gray-300 mb-8">
-              JUNIOR FULLSTACK DEVELOPER
-            </h2>
-            <div className="flex flex-wrap gap-4 mb-12">
-              <span className="px-4 py-2 rounded-full bg-cyan-900/30 text-cyan-300 backdrop-blur-sm">PYTHON</span>
-              <span className="px-4 py-2 rounded-full bg-purple-900/30 text-purple-300 backdrop-blur-sm">JAVASCRIPT</span>
-              <span className="px-4 py-2 rounded-full bg-blue-900/30 text-blue-300 backdrop-blur-sm">REACT</span>
-              <span className="px-4 py-2 rounded-full bg-emerald-900/30 text-emerald-300 backdrop-blur-sm">FLASK</span>
-            </div>
-          </GlassCard>
-        </div>
-        
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-          </svg>
-        </div>
-      </section>
+    <div className="relative min-h-screen overflow-hidden">
+      <Navbar />
 
-      {/* About Section */}
-      <section className="min-h-screen flex items-center justify-center p-8 bg-gradient-to-br from-gray-900/80 to-gray-800/80">
-        <GlassCard>
-          <h2 className="text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">
-            ABOUT ME
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-lg text-gray-300 mb-6">
-                Passionate junior fullstack developer specializing in Python and JavaScript ecosystems. 
-                I build modern web applications with React frontends and Flask backends.
-              </p>
-              <p className="text-lg text-gray-300 mb-6">
-                My approach combines clean code aesthetics with cutting-edge technologies 
-                to create performant and visually stunning applications.
-              </p>
-              <div className="flex gap-4">
-                <button className="px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-medium hover:shadow-lg hover:shadow-cyan-500/30 transition-all">
-                  View Projects
-                </button>
-                <button className="px-6 py-3 rounded-lg border border-cyan-400 text-cyan-400 font-medium hover:bg-cyan-400/10 transition-all">
-                  Download CV
-                </button>
-              </div>
-            </div>
-            <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200"></div>
-              <img 
-                src="src/assets/images/LIAM.jpg" 
-                alt="Liam Naule" 
-                className="relative rounded-lg w-full h-auto object-cover"
-              />
-            </div>
+      {/* Hero Slider */}
+      <div className="absolute inset-0 z-0">
+        {heroImages.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              index === currentSlide ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{
+              backgroundImage: `url(${image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
+          />
+        ))}
+        <div className="absolute inset-0 bg-black/40" />
+      </div>
+
+      {/* Hero Content */}
+      <div className="relative z-10 min-h-screen flex flex-col justify-center px-8 text-white">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="max-w-4xl"
+        >
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-bold mb-6">
+            <span className="text-primary">CREATE</span> WITH PURPOSE
+          </h1>
+          <p className="text-xl md:text-2xl max-w-2xl mb-10">
+            I'm Liam Naule, a fullstack developer building digital experiences that matter.
+          </p>
+          <div className="flex space-x-4">
+            <a href="#projects" className="px-8 py-3 bg-primary text-dark font-bold rounded-full hover:bg-light transition-colors">
+              View Work
+            </a>
+            <a href="#about" className="px-8 py-3 border-2 border-light text-light font-bold rounded-full hover:bg-light hover:text-dark transition-colors">
+              About Me
+            </a>
           </div>
-        </GlassCard>
-      </section>
-
-      {/* Contact Section */}
-      <section className="min-h-screen flex items-center justify-center p-8 relative">
-        <div className="absolute inset-0 bg-[url('./assets/images/contact-bg.jpg')] bg-cover bg-center opacity-10"></div>
-        <div className="max-w-4xl mx-auto z-10">
-          <h2 className="text-4xl font-bold mb-16 text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">
-            GET IN TOUCH
-          </h2>
-          <ContactSphere />
-        </div>
-      </section>
+        </motion.div>
+      </div>
     </div>
   )
 }
